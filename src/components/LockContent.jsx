@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import vip from '../assets/vip.svg'
 import { useState } from 'react';
 
-function LockContent(){
+function LockContent({xu}){
     const [isHideShow, setIsHideShow] = useState({
         category1 : false,
         category2 : false,
@@ -15,7 +15,8 @@ function LockContent(){
         }));
     };
 
-    const xu = 1;
+    const totalxu = 100;
+
     return(
         <div className='flex flex-col items-center p-3 relative'>
             <img className='size-14' src={vip} alt="" />
@@ -25,7 +26,7 @@ function LockContent(){
                     <i className="fa-solid fa-check mr-1"></i>
                     Mua Chap Này
                 </button>
-                <Link to='/' className='bg-amber-500 rounded-sm py-2 text-center'>
+                <Link to='/payment' className='bg-amber-500 rounded-sm py-2 text-center'>
                     <i className="fa-solid fa-coins mr-1"></i>
                     Nạp Xu
                 </Link>
@@ -36,7 +37,7 @@ function LockContent(){
             {isHideShow.category1 && (
                 <div className='absolute bg-[rgba(0,0,0,0.7)] inset-0 flex items-center justify-center'>
                     <div className='bg-white shadow-xl text-center rounded-sm'>
-                        { xu > 5 ? (
+                        { totalxu > xu ? (
                             <div className='p-3'>
                                 <div className='p-3'>
                                     <span className='text-lg px-5 py-3 shadow'>Mua Chương Giá 5 <i className="fa-solid fa-coins mr-1 text-amber-500"></i></span>

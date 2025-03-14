@@ -1,16 +1,32 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginuser } from '../redux/slices/authSlice';
+
 
 export default function SignIn() {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const isLogin = useSelector(state => state.auth.isLogin);
+  useEffect(() => {
+    if(isLogin){
+      navigate('/');
+    }
+  },[isLogin,navigate]);
+
+  const onSubmit = async (data) => {
+    dispatch(loginuser({email: data.email, password: data.password}));
   };
+
 
   return (
     <div className="flex min-h-[calc(100vh-168px)] lg:min-h-[calc(100vh-124px)] justify-center items-center px-4 sm:px-6 lg:px-8 bg-gray-100">

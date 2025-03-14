@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from '../assets/logo.png';
 import logo1 from '../assets/talatade.jpg';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/slices/authSlice';
+import { fetchAllCate } from '../redux/slices/categorySlice';
 
 
 const Header = () => {
@@ -29,6 +32,16 @@ const Header = () => {
       showhide2: showhie === "showhide2" ? !isVisible.showhide2 : false,
     });
   }
+
+  const dispatch = useDispatch();
+
+  const isLogin = useSelector(state => state.auth.isLogin);
+
+  const category = useSelector(state => state.category.listCata);
+
+  useEffect(() => {
+    dispatch(fetchAllCate());
+  },[dispatch])
   
 
   return (
@@ -57,10 +70,9 @@ const Header = () => {
           </div>
 
           <div className="login">
-            {/* <ul className='flex gap-2 items-center text-white'>
-              <li><Link to="/register" className='uppercase bg-amber-500  rounded-md  shadow px-2.5 py-1.5'>đăng kí</Link></li>
-              <li><Link to="/login" className='uppercase bg-amber-500  rounded-md shadow px-2.5 py-1.5 '>đăng nhập</Link></li>
-            </ul> */}
+
+          {isLogin ? 
+          (
             <ul className='flex gap-2  items-center justify-between'>
               <li onClick={() => toggleVisible('showhide1')} className='relative'>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-8 text-gray-600">
@@ -94,7 +106,7 @@ const Header = () => {
                           <Link to='/payment' className='hover:text-amber-500'>Nạp Xu</Link>
                         </li>
                         <li className='hover:shadow p-2 rounded-sm'>
-                          <button className='hover:text-amber-500 cursor-pointer'>Đăng Xuất</button>
+                          <button onClick={() => dispatch(logout())}  className='hover:text-amber-500 cursor-pointer'>Đăng Xuất</button>
                         </li>
                       </ul>
                     </div>
@@ -102,6 +114,13 @@ const Header = () => {
                 }
               </li>
             </ul>
+          ):(
+            <ul className='flex gap-2 items-center text-white'>
+              <li><Link to="/register" className='uppercase bg-amber-500  rounded-md  shadow px-2.5 py-1.5'>đăng kí</Link></li>
+              <li><Link to="/login" className='uppercase bg-amber-500  rounded-md shadow px-2.5 py-1.5 '>đăng nhập</Link></li>
+            </ul>         
+          )
+          }
           </div>
 
           
@@ -131,16 +150,12 @@ const Header = () => {
               <div className='hidden group-hover:block z-10 absolute bg-gray-100 w-full right-0 top-12 shadow-2xs cursor-default'>
                 <div className='max-w-7xl mx-auto text-black'>
                   <div className='my-5 grid grid-cols-8 gap-4 px-3 '>  
-                    <p ><Link className='hover:text-amber-500 transition-colors duration-200' to="/genre">Action</Link></p>
-                    <p><a href="">Action</a></p>
-                    <p><a href="">Action</a></p>
-                    <p><a href="">Action</a></p>
-                    <p><a href="">Action</a></p>
-                    <p><a href="">Action</a></p>
-                    <p><a href="">Action</a></p>
-                    <p><a href="">Action</a></p>
-                    <p><a href="">Action</a></p>
-                    <p><a href="">Action</a></p>
+                    {
+                      category.length > 0 && category.map((cate) => (
+                        <p key={cate.category_id} ><Link className='hover:text-amber-500 transition-colors duration-200' to={`/the-loai/${cate.category_id}`}> {cate.name} </Link></p>
+                      ) )
+                    }
+                    
                   </div>
                 </div>
               </div>
@@ -204,16 +219,12 @@ const Header = () => {
               </div>
               {isHideShow.category1 &&
               <div className='bg-gray-100 cursor-default text-black mt-1 p-3 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4'>
-                <p ><a className='hover:text-amber-500 transition-colors duration-200' href="">Action</a></p>
-                <p><a href="">Action</a></p>
-                <p><a href="">Action</a></p>
-                <p><a href="">Action</a></p>
-                <p><a href="">Action</a></p>
-                <p><a href="">Action</a></p>
-                <p><a href="">Action</a></p>
-                <p><a href="">Action</a></p>
-                <p><a href="">Action</a></p>
-                <p><a href="">Action</a></p>
+                
+                {
+                  category.length > 0 && category.map((cate) => (
+                    <p key={cate.category_id}><Link className='hover:text-amber-500 transition-colors duration-200' to={`/the-loai/${cate.category_id}`}>{cate.name}</Link></p>
+                  ))
+                }
               </div>
               }
             </li>

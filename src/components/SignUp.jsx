@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerUser } from '../redux/slices/authSlice';
 
 function SignUp() {
   const {
@@ -8,8 +10,14 @@ function SignUp() {
     formState: { errors },
   } = useForm();
 
+  const disPatch = useDispatch();
+  const navigate = useNavigate()
   const onSubmit = (data) => {
-    console.log(data);
+    disPatch(registerUser({username: data.username, email: data.email, password: data.password})).then((action) => {
+      if (action.meta.requestStatus === "fulfilled") {
+        navigate("/login"); 
+      }
+    })
   };
 
   return (
@@ -20,12 +28,12 @@ function SignUp() {
         <div className='mb-4'>
             <input 
               type="text"
-              id="name"
-              {...register("name", { required: "Name is required" })}
+              id="username"
+              {...register("username", { required: "Name is required" })}
               placeholder="Name"
               className="border rounded-md p-3 w-full "
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+            {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
           </div>
 
           <div className='mb-4'>

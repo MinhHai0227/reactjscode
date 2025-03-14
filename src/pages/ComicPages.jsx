@@ -1,20 +1,36 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import logo1 from '../assets/talatade.jpg';
 import ChapterList from '../components/ChapterList';
 import CommentAll from '../components/CommentAll';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchComicById } from '../redux/slices/comicSlice';
 
 function ComicPages(){
+    
+    const {comic_id} = useParams();
+    const dispatch = useDispatch();
+    const comic = useSelector(state => state.comic.comicById[comic_id])
+    const loading = useSelector(state => state.comic.loading)
+
+
+    useEffect(() => {
+        if(comic_id && !comic && !loading){
+            dispatch(fetchComicById(comic_id))
+        }
+    },[dispatch,comic_id,comic,loading])
+
     return(
         <div className="bg-gray-100">
             <div className="max-w-7xl mx-auto bg-white shadow">
                 <ol className='flex gap-3 p-3 text-gray-500'>
-                    <li><Link>Trang chủ</Link> </li>
-                    <li className="before:mr-3 before:text-gray-500 before:content-['/'] "><Link>Ta là Tà Đế</Link> </li>
+                    <li><Link to='/'>Trang chủ</Link> </li>
+                    <li className="before:mr-3 before:text-gray-500 before:content-['/'] "><Link to={`/truyen-tranh/${comic ? comic.comic_id : null}`}>Ta là Tà Đế</Link> </li>
                 </ol>
                 <div className='block lg:flex lg:items-center mb-3'>
                     <div className='w-full lg:w-fit flex'><img className='mx-auto p-3 ml-2 object-cover h-64' src={logo1} alt="" /> </div>                
                     <div className='p-3'>
-                        <h1 className='text-2xl font-semibold leading-6 pb-4'>Trở Thành Hung Thần Trong Trò Chơi Thủ Thành</h1>
+                        <h1 className='text-2xl font-semibold leading-6 pb-4'>{comic ? comic.title : ''}</h1>
                         <ul className=' text-gray-700 space-y-2 mb-4'>
                             <li className='flex'>
                                 <span className='w-35 flex items-center'>
@@ -23,7 +39,7 @@ function ComicPages(){
                                     </svg>
                                     <p>Tác Giả</p>
                                 </span>
-                                <p>Minh Hải</p>
+                                <p>{comic ? comic.author : ''}</p>
                             </li>
                             <li className='flex'>
                                 <span className='w-35 flex items-center'>
@@ -32,7 +48,7 @@ function ComicPages(){
                                     </svg>
                                     <p>Tình Trạng</p>
                                 </span>
-                                <p>Đang cập Nhật</p>
+                                <p>{comic ? comic.status : ''}</p>
                             </li>
                             <li className='flex'>
                             <span className='w-35 flex items-center'>
@@ -41,7 +57,7 @@ function ComicPages(){
                                 </svg>
                                 <p>Lượt Yêu thích</p>
                             </span>
-                                <p>623</p>
+                                <p>{comic ? comic.likes : ''}</p>
                             </li>
                             <li className='flex'>
                             <span className='w-35 flex items-center'>
@@ -51,14 +67,16 @@ function ComicPages(){
                                 </svg>
                                 <p>Lượt xem</p>
                             </span>
-                                <p>623</p>
+                                <p>{comic ? comic.views : ''}</p>
                             </li>
                            
                         </ul>
                         <ul className='flex gap-2 mb-4'>
-                            <li><Link className='border border-amber-500 px-3 py-1 text-amber-500 rounded-sm hover:text-white hover:bg-amber-500 duration-300 '>Action</Link> </li>
-                            <li><Link className='border border-amber-500 px-3 py-1 text-amber-500 rounded-sm hover:text-white hover:bg-amber-500 duration-300'>Action</Link> </li>
-                            <li><Link className='border border-amber-500 px-3 py-1 text-amber-500 rounded-sm hover:text-white hover:bg-amber-500 duration-300'>Action</Link> </li>
+                            {
+                                comic && comic.categories.map((item, index) => (
+                                    <li key={index}><Link className='border border-amber-500 px-3 py-1 text-amber-500 rounded-sm hover:text-white hover:bg-amber-500 duration-300 '>{item}</Link> </li>
+                                ))
+                            }
                         </ul>
                         <ul className='grid grid-cols-2 gap-2 sm:flex'>
                             <li>
@@ -117,7 +135,10 @@ function ComicPages(){
                         </svg>
                         <p>Danh sách chương</p>
                     </span>
-                    <ChapterList/>
+                    <ChapterList 
+                        chapters={comic ? comic.chapters : null}
+                        comic_id={comic_id}
+                    />
                     <CommentAll/>
                 </div>
             </div>

@@ -1,7 +1,36 @@
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ComicList from "../components/ComicList";
 import Page from "../components/Page";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchComicByCate } from "../redux/slices/categorySlice";
 
 function GenrePages(){
+
+    const{category_id } = useParams();
+    
+    const disPatch = useDispatch();
+
+    const cateData = useSelector(state => state.category.comicBycate[category_id]);
+
+
+    const category = useSelector(state => state.category.listCata);
+
+    const navigate = useNavigate()
+    
+    const handSelectCate = (event) => {
+        const selectCateId = event.target.value;
+        if(selectCateId && selectCateId != category_id){
+            navigate(`/the-loai/${selectCateId}`)
+        }
+    }
+
+    useEffect(() => {
+        if(category_id && cateData === undefined){
+            disPatch(fetchComicByCate(category_id));
+        }
+    },[disPatch,cateData,category_id])
+
     return(
         <div className="bg-gray-100 ">
             <div className="max-w-7xl mx-auto ">
@@ -11,17 +40,25 @@ function GenrePages(){
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                             <path fillRule="evenodd" d="M3 2.25a.75.75 0 0 1 .75.75v.54l1.838-.46a9.75 9.75 0 0 1 6.725.738l.108.054A8.25 8.25 0 0 0 18 4.524l3.11-.732a.75.75 0 0 1 .917.81 47.784 47.784 0 0 0 .005 10.337.75.75 0 0 1-.574.812l-3.114.733a9.75 9.75 0 0 1-6.594-.77l-.108-.054a8.25 8.25 0 0 0-5.69-.625l-2.202.55V21a.75.75 0 0 1-1.5 0V3A.75.75 0 0 1 3 2.25Z" clipRule="evenodd" />
                         </svg>
-                        <p>Truyện Manhua</p>
+                        <p>Truyện {cateData ? cateData.name: 'lỗi'} </p>
                     </div>
-                    <p className="p-4 bg-white shadow-xs text-sm rounded-sm">Thể loại thường xuất hiện nhiều bí ẩn không thể lí giải được và sau đó là những nỗ lực của nhân vật chính nhằm tìm ra cầu trả lời thỏa đáng</p>
+                    <p className="p-4 bg-white shadow-xs text-sm rounded-sm">{cateData ? cateData.description: 'lỗi'}</p>
                 </div>
                 <div className="p-3 mt-5 bg-white shadow-sm rounded-sm">
                     <ul >
                         <li className="flex items-center p-1">
-                        <span className="text-sm text-gray-400 w-22">Thể loại</span>
-                        <select name="Manhua" className=" p-1 w-30 border border-gray-300 rounded-md ">
-                            <option value="">Manhua</option>
-                        </select>
+                        <span className="text-sm text-gray-400 w-22">Thể loại`</span>
+                        <select
+                            value={category_id}
+                            onChange={handSelectCate}
+                            className="p-1 w-30 border border-gray-300 rounded-md max-h-36 overflow-y-auto"
+                        >
+                                {category && category.map((cate, index) => (
+                                    <option key={index} value={cate.category_id}>
+                                        {cate.name}
+                                    </option>
+                                ))}
+                            </select>
                         </li>
                         <li className="flex items-center p-1">
                         <span className="text-sm text-gray-400 w-22">Tình trạng</span>
@@ -48,7 +85,7 @@ function GenrePages(){
                     </ul>
                 </div>
             </div>
-            <ComicList/>
+            <ComicList comic={cateData ? cateData.comics : null} />
             <Page/>
         </div>
         </div> 

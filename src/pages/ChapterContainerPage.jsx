@@ -1,8 +1,35 @@
 import banner from '../assets/manga.jpg'
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import CommentAll from '../components/CommentAll'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react';
+import LockContent from '../components/LockContent'
+import Content from '../components/Content'
+import LoginToRead from '../components/LoginToRead'
+import { fetchChapterBycomicId } from '../redux/slices/chapterSlice';
+import { fetchComicById } from '../redux/slices/comicSlice';
 
-function ChapterContainerPage({children}){
+
+function ChapterContainerPage(){
+
+    const isLogin = useSelector(state => state.auth.isLogin);
+    const {comic_id,chapter_id} = useParams();
+    const comic = useSelector(state => state.comic.comicById[comic_id]);
+    
+    const chapter = useSelector(state => state.chapter.chapterByComicId[chapter_id]);
+    const loading = useSelector(state => state.chapter.loading)
+    const dispatch = useDispatch();
+
+    
+    console.log('checj ul',chapter? chapter.is_locked : 'he')
+
+    useEffect(() => {
+        if (chapter_id && !chapter && !loading) {
+            dispatch(fetchChapterBycomicId(chapter_id));
+        }
+    }, [dispatch, chapter_id, chapter, loading]);
+
+
     return(
         <div className="bg-gray-800">
             <div className="max-w-7xl mx-auto">
@@ -14,11 +41,11 @@ function ChapterContainerPage({children}){
                 </div>
                 <div className="bg-white shadow rounded-sm mt-2">
                     <ol className='flex gap-3 pt-5 px-3 text-gray-500'>
-                        <li><Link>Trang chủ</Link> </li>
-                        <li className="before:mr-3 before:text-gray-500 before:content-['/'] "><Link>Ta là Tà Đế</Link> </li>
-                        <li className="before:mr-3 before:text-gray-500 before:content-['/'] "><Link>Chương 121</Link> </li>
+                        <li><Link to='/'>Trang chủ</Link> </li>
+                        <li className="before:mr-3 before:text-gray-500 before:content-['/'] "><Link to={`/truyen-tranh/${comic_id}`}>{comic ? comic.title : ''}</Link> </li>
+                        <li className="before:mr-3 before:text-gray-500 before:content-['/'] "><Link to={`/truyen-tranh/${comic_id}/${chapter_id}`}>{chapter ? chapter.title : ''} </Link> </li>
                     </ol>   
-                    <h1 className='p-3 text-gray-800 text-xl font-semibold leading-6 '>Trở Thành Hung Thần Trong Trò Chơi Thủ Thành - Chap 121 <span className="text-sm font-normal">(Cập nhật lúc: 21:57 27/2/2025)</span></h1>
+                    <h1 className='p-3 text-gray-800 text-xl font-semibold leading-6 '>{comic ? comic.title : ''} - {chapter ? chapter.title : ''} <span className="text-sm font-normal">(Cập nhật lúc: 21:57 27/2/2025)</span></h1>
                     <div className="text-center px-3 py-4">
                         <span className="text-gray-600 ">Nếu không xem được truyện vui lòng "BÁO LỖI" bên dưới</span>
                         <button className="flex items-center text-white gap-1 bg-amber-500 py-1.5 px-2 m-2 rounded-sm mx-auto">
@@ -47,7 +74,17 @@ function ChapterContainerPage({children}){
                     </div>
                 </div>
                 <div className="max-w-177 mt-2 mx-auto bg-white">
-                    {children}
+                {
+                    chapter && chapter.is_locked === true? (
+                        isLogin ? (
+                            <LockContent xu={chapter ? chapter.price_xu : ''}/>
+                        ):(
+                            <LoginToRead/>
+                        )                  
+                    ):(
+                        <Content chapterimg={chapter ? chapter.chapterimg : null}/>
+                    )
+                }
                 </div>
                 <div className='bg-white shadow rounded-sm mt-2 py-3'>
                     <div className="flex items-center justify-center text-white gap-2">
