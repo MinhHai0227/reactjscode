@@ -1,13 +1,15 @@
 import banner from '../assets/manga.jpg'
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import CommentAll from '../components/CommentAll'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import LockContent from '../components/LockContent'
 import Content from '../components/Content'
 import LoginToRead from '../components/LoginToRead'
-import { fetchChapterBycomicId } from '../redux/slices/chapterSlice';
-import { fetchComicById } from '../redux/slices/comicSlice';
+import { fetchChapterBycomicId, Unlockchapter } from '../redux/slices/chapterSlice';
+import { fetchUserById } from '../redux/slices/userSlice';
+import { checkUserUnlock } from '../custom/service/ChapterUnlockService';
+
 
 
 function ChapterContainerPage(){
@@ -18,16 +20,56 @@ function ChapterContainerPage(){
     
     const chapter = useSelector(state => state.chapter.chapterByComicId[chapter_id]);
     const loading = useSelector(state => state.chapter.loading)
+    const user = useSelector(state => state.user.userById)
     const dispatch = useDispatch();
 
-    
-    console.log('checj ul',chapter? chapter.is_locked : 'he')
+    const [isUnlock, setIsUnlock] = useState(false);
 
+    const navigate = useNavigate()
+
+    const hanlUserUnlock = (chapterId) => {
+        dispatch(Unlockchapter(chapterId)).then((action) => {
+            if (action.meta.requestStatus === "fulfilled") {
+                navigate(`/truyen-tranh/${comic_id}/${chapter_id}`);
+            } else {
+                alert("Lỗi khi mở khóa chương");
+            }
+        });
+    }
+    
+    
+    const checkUnlockStatus = async (chapterId) => {
+      const isUnlocked = await checkUserUnlock(chapterId)
+      setIsUnlock(isUnlocked); 
+    }
+
+    useEffect(() => {
+        
+        let isMounted = true;
+    
+        if (chapter_id && isMounted) {
+          checkUnlockStatus(chapter_id);
+        }
+    
+        return () => {
+          isMounted = false;
+        };
+      }, [chapter_id]); 
+
+    useEffect(() => {
+        if(!user || user.length === 0){
+            dispatch(fetchUserById())
+        }
+    },[dispatch,user])
+
+    
     useEffect(() => {
         if (chapter_id && !chapter && !loading) {
             dispatch(fetchChapterBycomicId(chapter_id));
         }
     }, [dispatch, chapter_id, chapter, loading]);
+
+  
 
 
     return(
@@ -74,17 +116,24 @@ function ChapterContainerPage(){
                     </div>
                 </div>
                 <div className="max-w-177 mt-2 mx-auto bg-white">
-                {
-                    chapter && chapter.is_locked === true? (
-                        isLogin ? (
-                            <LockContent xu={chapter ? chapter.price_xu : ''}/>
-                        ):(
-                            <LoginToRead/>
-                        )                  
-                    ):(
-                        <Content chapterimg={chapter ? chapter.chapterimg : null}/>
+                {chapter && chapter.is_locked === true ? (
+                    isLogin ? (
+                        isUnlock ? (
+                        <Content chapterimg={chapter ? chapter.chapterimg : null} />
+                        ) : (
+                        <LockContent
+                            xu={chapter ? chapter.price_xu : ''}
+                            total={user ? user.total_coins : 0}
+                            hanlUserUnlock={hanlUserUnlock}
+                            chapter={chapter_id}
+                        />
+                        )
+                    ) : (
+                        <LoginToRead />
                     )
-                }
+                    ) : (
+                    <Content chapterimg={chapter ? chapter.chapterimg : null} />
+                )}
                 </div>
                 <div className='bg-white shadow rounded-sm mt-2 py-3'>
                     <div className="flex items-center justify-center text-white gap-2">

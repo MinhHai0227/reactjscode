@@ -1,7 +1,7 @@
 import logo from '../assets/8.jpg'
 
 function Content({chapterimg}){
-    console.log("img",chapterimg);
+    
     return(
         <>
         {chapterimg && chapterimg.map((item, index) => (

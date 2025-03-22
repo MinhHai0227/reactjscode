@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import vip from '../assets/vip.svg'
 import { useState } from 'react';
 
-function LockContent({xu}){
+function LockContent({xu,total, hanlUserUnlock,chapter}){
     const [isHideShow, setIsHideShow] = useState({
         category1 : false,
         category2 : false,
@@ -15,8 +15,7 @@ function LockContent({xu}){
         }));
     };
 
-    const totalxu = 100;
-
+    console.log(total,xu)
     return(
         <div className='flex flex-col items-center p-3 relative'>
             <img className='size-14' src={vip} alt="" />
@@ -37,7 +36,7 @@ function LockContent({xu}){
             {isHideShow.category1 && (
                 <div className='absolute bg-[rgba(0,0,0,0.7)] inset-0 flex items-center justify-center'>
                     <div className='bg-white shadow-xl text-center rounded-sm'>
-                        { totalxu > xu ? (
+                        { total > xu ? (
                             <div className='p-3'>
                                 <div className='p-3'>
                                     <span className='text-lg px-5 py-3 shadow'>Mua Chương Giá 5 <i className="fa-solid fa-coins mr-1 text-amber-500"></i></span>
@@ -45,7 +44,7 @@ function LockContent({xu}){
                                 </div>
                                 <div className='flex'>
                                     <button onClick={() => toggleHideShow('category1')} className='bg-gray-200 w-full py-2 cursor-pointer hover:bg-gray-100'>Bỏ Qua</button>
-                                    <button className='bg-gray-200 w-full py-2 cursor-pointer hover:bg-gray-100 text-amber-500'>OK</button>
+                                    <button onClick={() => hanlUserUnlock(chapter)} className='bg-gray-200 w-full py-2 cursor-pointer hover:bg-gray-100 text-amber-500'>OK</button>
                                 </div>
                             </div>
                         ):

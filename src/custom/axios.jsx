@@ -9,7 +9,9 @@ const instance = axios.create({
 // instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 instance.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('token');
     // Do something before request is sent
+    config.headers.Authorization = `Bearer ${token}`;
     return config;
 }, function (error) {
     // Do something with request error

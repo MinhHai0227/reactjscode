@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginuser } from '../redux/slices/authSlice';
+import { jwtDecode } from "jwt-decode";
 
 
 export default function SignIn() {
@@ -17,9 +18,20 @@ export default function SignIn() {
   } = useForm();
 
   const isLogin = useSelector(state => state.auth.isLogin);
+
+  let deco;
+  const token = localStorage.getItem('token');
+  if(token){
+    deco = jwtDecode(token)
+  }
+
   useEffect(() => {
     if(isLogin){
-      navigate('/');
+      if(deco.role === 'user'){
+        navigate('/')
+      }else if(deco.role === "admin"){
+        navigate('/admin/user')
+      }
     }
   },[isLogin,navigate]);
 
