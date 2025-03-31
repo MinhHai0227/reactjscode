@@ -3,9 +3,9 @@ import logo1 from '../assets/talatade.jpg'
 
 function ComicCart({item}){
     return(
-        <Link to={`truyen-tranh/${item.comic_id}`} className='w-full bg-white rounded-lg shadow-md overflow-hidden border border-gray-200'>
+        <Link to={`/truyen-tranh/${item.comic_id}`} className='w-full bg-white rounded-lg shadow-md overflow-hidden border border-gray-200'>
             <div className='relative'>
-                <img className='w-full h-56 object-cover' src={logo1} alt="" />
+                <img className='w-full h-56 object-cover' src={item.cover_image} alt="" />
                 <div className='absolute left-2 top-2 flex text-sm gap-1'>
                     <p className='bg-sky-300 text-white p-0.5 rounded-sm'>13 Phút Trước</p>
                     <p className='bg-red-500 text-white p-0.5 rounded-sm'>Hot</p>

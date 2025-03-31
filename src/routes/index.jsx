@@ -32,17 +32,17 @@ const publicRouters = [
     {path: '/info', component: Information},
     {path: '/payment', component: PaymentPage},
     {path: '/truyen-tranh/:comic_id/:chapter_id', component: ChapterContainerPage, layout: ChapterLayout},
+    
+
+]
+
+const privateRouters = [
     {path: '/admin/user', component: UserAdminPage, layout: AdminLayout},
     {path: '/admin/comic', component: ComicAdminPage, layout: AdminLayout},
     {path: '/admin/categories', component: CategoriesAdminpage, layout: AdminLayout},
     {path: '/admin/country', component: CountryAdminpage, layout: AdminLayout},
     {path: '/admin/comic/:comic_id', component: ChapterAdminpage, layout: AdminLayout},
     {path: '/admin/chapter/:chapter_id', component: ChapterImgAdminPage, layout: AdminLayout},
-
-]
-
-const privateRouters = [
-    
 ]
 
 export {publicRouters, privateRouters}

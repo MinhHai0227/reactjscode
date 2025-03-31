@@ -29,6 +29,7 @@ instance.interceptors.response.use(function (response) {
         res.data = error.response.data;
         res.status = error.response.status;
         res.headers = error.response.headers;
+        console.log("Error",res);
     } else if (error.request) {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of

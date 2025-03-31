@@ -28,7 +28,7 @@ function ComicPages(){
                     <li className="before:mr-3 before:text-gray-500 before:content-['/'] "><Link to={`/truyen-tranh/${comic ? comic.comic_id : null}`}>Ta là Tà Đế</Link> </li>
                 </ol>
                 <div className='block lg:flex lg:items-center mb-3'>
-                    <div className='w-full lg:w-fit flex'><img className='mx-auto p-3 ml-2 object-cover h-64' src={logo1} alt="" /> </div>                
+                    <div className='w-full lg:w-fit flex'><img className='mx-auto p-3 ml-2 object-cover h-64' src={comic ? comic.cover_image : null} alt="" /> </div>                
                     <div className='p-3'>
                         <h1 className='text-2xl font-semibold leading-6 pb-4'>{comic ? comic.title : ''}</h1>
                         <ul className=' text-gray-700 space-y-2 mb-4'>

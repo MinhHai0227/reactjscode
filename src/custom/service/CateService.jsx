@@ -1,9 +1,19 @@
-import axios from '../axios'
+import axios from "../axios";
 
-export const getAllCate = async () => {
-    return await axios.get('categories')
-}
+const getAllCate = async () => {
+  return await axios.get("categories");
+};
 
-export const getComicByCate = async(cate_id) => {
-    return await axios.get(`categories/${cate_id}`)
-}
+const getComicByCate = async (cate_id) => {
+  return await axios.get(`categories/${cate_id}`);
+};
+
+const addcate = async (name, slug) => {
+  return await axios.post(`categories`, { name, slug });
+};
+
+const deletecate = async (id) => {
+  return await axios.delete(`categories/${id}`);
+};
+
+export { deletecate, getAllCate, getComicByCate, addcate };
