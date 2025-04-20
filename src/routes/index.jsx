@@ -26,7 +26,7 @@ const publicRouters = [
    
     {path: '/', component: Home},
     {path: '/the-loai/:category_id', component: GenrePages},
-    {path: '/truyen-tranh/:comic_id', component: ComicPages},
+    {path: '/truyen-tranh/:slug', component: ComicPages},
     {path: '/login', component: SignIn},
     {path: '/register', component: SignUp},
     {path: '/info', component: Information},

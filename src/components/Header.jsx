@@ -293,17 +293,16 @@ const Header = () => {
                 <div className="max-w-7xl mx-auto text-black">
                   <div className="my-5 grid grid-cols-8 gap-4 px-3 ">
                   {category?.data?.length > 0 && 
-  category.data.map((cate) => (
-    <p key={cate.id}>
-      <Link
-        className="hover:text-amber-500 transition-colors duration-200"
-        to={`/the-loai/${cate.id}`}
-      >
-        {cate.name}
-      </Link>
-    </p>
-))}
-
+                    category.data.map((cate) => (
+                      <p key={cate.id}>
+                        <Link
+                          className="hover:text-amber-500 transition-colors duration-200"
+                          to={`/the-loai/${cate.id}`}
+                        >
+                          {cate.name}
+                        </Link>
+                      </p>
+                  ))}
                   </div>
                 </div>
               </div>

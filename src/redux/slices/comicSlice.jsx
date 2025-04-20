@@ -14,6 +14,7 @@ export const fetchComicById = createAsyncThunk(
     'comic/fetchComicById',
     async (id) => {
         const res = await findComicById(id);
+        console.log(res)
         return res;
     }
 )

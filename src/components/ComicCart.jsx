@@ -15,7 +15,7 @@ function ComicCart({ item }) {
   : 'Chưa có chương';
 
   return (
-    <Link to={`/truyen-tranh/${item.comic_id}`} className='w-full bg-white rounded-lg shadow-md overflow-hidden border border-gray-200'>
+    <Link to={`/truyen-tranh/${item.slug}`} className='w-full bg-white rounded-lg shadow-md overflow-hidden border border-gray-200'>
       <div className='relative'>
         <img className='w-full h-56 object-cover' src={item.cover_image} alt={item.title} />
         <div className='absolute left-2 top-2 flex text-sm gap-1'>
