@@ -67,7 +67,7 @@ const Header = () => {
 
   const category = useSelector((state) => state.category.listCata);
   console.log(category)
-
+  
   useEffect(() => {
     dispatch(fetchAllCate());
   }, [dispatch]);
@@ -292,18 +292,18 @@ const Header = () => {
               <div className="hidden group-hover:block z-10 absolute bg-gray-100 w-full right-0 top-12 shadow-2xs cursor-default">
                 <div className="max-w-7xl mx-auto text-black">
                   <div className="my-5 grid grid-cols-8 gap-4 px-3 ">
-                    {category.data.length > 0 &&
-                      category.data.map((cate) => (
-                        <p key={cate.id}>
-                          <Link
-                            className="hover:text-amber-500 transition-colors duration-200"
-                            to={`/the-loai/${cate.id}`}
-                          >
-                            {" "}
-                            {cate.name}{" "}
-                          </Link>
-                        </p>
-                      ))}
+                  {category?.data?.length > 0 && 
+  category.data.map((cate) => (
+    <p key={cate.id}>
+      <Link
+        className="hover:text-amber-500 transition-colors duration-200"
+        to={`/the-loai/${cate.id}`}
+      >
+        {cate.name}
+      </Link>
+    </p>
+))}
+
                   </div>
                 </div>
               </div>
@@ -468,7 +468,7 @@ const Header = () => {
               </div>
               {isHideShow.category1 && (
                 <div className="bg-gray-100 cursor-default text-black mt-1 p-3 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-                  {category.data.length > 0 &&
+                  {category && category.data.length > 0 &&
                     category.data.map((cate) => (
                       <p key={cate.category_id}>
                         <Link
