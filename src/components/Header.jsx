@@ -73,8 +73,9 @@ const Header = () => {
 
   return (
     <header>
-      <div className="tren">
+      <div className="top">
         <div className=" max-w-7xl mx-auto h-full flex justify-between items-center p-3">
+          {/* Đây là tiêu đề logo */}
           <div className="logo flex items-center gap-3">
             <Link to="/" className="flex items-center gap-1">
               <img className="size-9" src={logo} alt="Logo Truyendocviet" />
@@ -98,6 +99,7 @@ const Header = () => {
             </button>
           </div>
 
+          {/* Đây là ô tìm kiếm  */}
           <div className="hidden lg:block top_search lg:w-md relative">
             <input
               className="border-1 border-amber-200 rounded-full h-11 w-full pl-5 pr-11"
@@ -140,6 +142,7 @@ const Header = () => {
             )}
           </div>
 
+          {/* Đây là button đăng nhập  */}
           <div className="login">
             {isLogin ? (
               <ul className="flex gap-2  items-center justify-between">
