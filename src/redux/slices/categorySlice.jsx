@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getAllCate, getComicByCate } from '../../custom/service/CateService'
 
 export const fetchAllCate = createAsyncThunk(
-  'categories/fetchCategories',
+  'category/fetchCategories',
   async () => {
     const res = await getAllCate();
     return res;

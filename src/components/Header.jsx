@@ -66,6 +66,7 @@ const Header = () => {
   const isLogin = useSelector((state) => state.auth.isLogin);
 
   const category = useSelector((state) => state.category.listCata);
+  console.log(category)
 
   useEffect(() => {
     dispatch(fetchAllCate());
@@ -291,12 +292,12 @@ const Header = () => {
               <div className="hidden group-hover:block z-10 absolute bg-gray-100 w-full right-0 top-12 shadow-2xs cursor-default">
                 <div className="max-w-7xl mx-auto text-black">
                   <div className="my-5 grid grid-cols-8 gap-4 px-3 ">
-                    {category.length > 0 &&
-                      category.map((cate) => (
-                        <p key={cate.category_id}>
+                    {category.data.length > 0 &&
+                      category.data.map((cate) => (
+                        <p key={cate.id}>
                           <Link
                             className="hover:text-amber-500 transition-colors duration-200"
-                            to={`/the-loai/${cate.category_id}`}
+                            to={`/the-loai/${cate.id}`}
                           >
                             {" "}
                             {cate.name}{" "}
@@ -467,8 +468,8 @@ const Header = () => {
               </div>
               {isHideShow.category1 && (
                 <div className="bg-gray-100 cursor-default text-black mt-1 p-3 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-                  {category.length > 0 &&
-                    category.map((cate) => (
+                  {category.data.length > 0 &&
+                    category.data.map((cate) => (
                       <p key={cate.category_id}>
                         <Link
                           className="hover:text-amber-500 transition-colors duration-200"
@@ -584,6 +585,11 @@ const Header = () => {
           </ul>
         </div>
       )}
+      <h2 className="max-w-7xl mt-7 mx-auto px-4 py-3 text-red-600 text-2xl font-bold italic font-serif tracking-wide">
+      * Truyện Hay
+    </h2>
+
+
     </header>
   );
 };
