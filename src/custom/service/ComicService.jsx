@@ -1,17 +1,17 @@
 import axios from '../axios';
 
 const getAllComics = async () => {
-    return await axios.get('comics')
+    return await axios.get('comic')
 }
 
 const findComicById = async (id) => {
-    return await axios.get(`comics/${id}`)
+    return await axios.get(`comic/${id}`)
 }
 
 const deleteComic = async (id) => {
     try { 
 
-        return await axios.delete(`comics/${id}`);
+        return await axios.delete(`comic/${id}`);
     } catch (error) {
         console.error('Error deleting user:', error);
         throw error; 
@@ -34,7 +34,7 @@ const addComic = async (comicData) => {
             });
         }
 
-        const response = await axios.post("comics", formData, {
+        const response = await axios.post("comic", formData, {
             headers: {
                 "Content-Type": "multipart/form-data", 
             },
@@ -55,7 +55,7 @@ const addComic = async (comicData) => {
 };
 
 const findComicByName = async(keyword) => {
-    return await axios.get(`comics/search/?q=${keyword}`)
+    return await axios.get(`comic/?q=${keyword}`)
 }
 
 

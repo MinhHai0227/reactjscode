@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'https://nestjswebtruyen.onrender.com/api/v1/',
+    baseURL: 'http://localhost:3000/api/v1/',
     // timeout: 1000,
     // headers: {'X-Custom-Header': 'foobar'}
 });
@@ -31,9 +31,10 @@ instance.interceptors.response.use(function (response) {
         res.headers = error.response.headers;
         console.log("Error",res);
     } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
+        
+    // Yêu cầu đã được thực hiện nhưng không nhận được phản hồi
+    // `error.request` là một thể hiện của XMLHttpRequest trong trình duyệt và là một thể hiện của
+    // http.ClientRequest trong node.js
         console.log(error.request);
     } else {
         // Something happened in setting up the request that triggered an Error
