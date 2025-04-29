@@ -48,6 +48,7 @@ export const authSlice = createSlice({
         state.data = null;
         state.error = null;
         localStorage.removeItem("token")
+        localStorage.removeItem("name")
     }
   },
   extraReducers: (builder) => {
@@ -63,7 +64,8 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = false;
         state.isLogin = true;
-        localStorage.setItem("token", action.payload.access_token);  
+        localStorage.setItem("token", action.payload.access_token);
+        localStorage.setItem("name",JSON.stringify(action.payload.data))  
     })
     .addCase(loginuser.rejected, (state, action) => {
         state.loading = false;

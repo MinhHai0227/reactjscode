@@ -4,6 +4,12 @@ const findChapterByComicId = async (id) => {
     return await axios.get(`chapters/${id}`)
 }
 
+
+const getAllContentChapterByChapterSlug = async (slug) => {
+    return await axios.get(`chapter/${slug}`)
+}   
+
+
 const addChapter = async (comic_id, title, slug, price_xu,auto_unlock_time) => {
     try {
 
@@ -55,4 +61,4 @@ const uploadImg = async (chapterId, files) => {
     }
 }
 
-export {findChapterByComicId, deleteChapter, addChapter, uploadImg}
+export {getAllContentChapterByChapterSlug,findChapterByComicId, deleteChapter, addChapter, uploadImg}

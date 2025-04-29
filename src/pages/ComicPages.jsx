@@ -117,7 +117,12 @@ function ComicPages() {
                     <ul className="list-disc pl-5">
                         {comic.chapters && comic.chapters.length > 0 ? (
                         comic.chapters.map((chapter) => (
-                            <li key={chapter.id}>Chương {chapter.chapter_name}</li>
+                            <li key={chapter.id}><Link
+                            to={`/chapter/${chapter.slug}`}
+                            className="border border-amber-500 px-3 py-1 text-amber-500 rounded-sm hover:text-white hover:bg-amber-500 duration-300"
+                        >
+                            {chapter.chapter_name}
+                        </Link></li>
                         ))
                         ) : (
                         <li>Chưa có chương nào.</li>

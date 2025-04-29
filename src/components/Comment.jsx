@@ -1,6 +1,28 @@
 import logo from '../assets/react.svg'
+import React, { useState, useEffect } from 'react';
+import { getAllCommentComics } from '../custom/service/CommentComicService';
+
 
 function Comment(){
+    const [comment, setComment] = useState(); 
+    const id = 1
+    useEffect(() => {
+        const getAllCommentComic = async () => {
+            try {
+                const res = await getAllCommentComics(id);
+                setComment(res); 
+                return res
+            } catch (error) {
+                console.log('Lỗi khi fetch comment:', error);
+            }
+        };
+        getAllCommentComic();
+    }, [id]);
+    console.log('hh',)
+    if (!comment) {
+        return <h1 className="text-center p-4">Đang tải bình luận...</h1>;
+    }
+
     return(
         <div className='flex items-start gap-3 '>
             <img className='p-1 mt-2 object-cover bg-amber-600 size-11 rounded-3xl' src={logo} alt="" />

@@ -16,6 +16,9 @@ function Home(){
 
     return(
         <div className="max-w-7xl mx-auto">
+            <h2 className="max-w-7xl mt-7 mx-auto px-4 py-3 text-red-600 text-2xl font-bold italic font-serif tracking-wide">
+      * Truyện Hay
+    </h2>
             <ComicList comic={listComic.data} />
         </div>
     )

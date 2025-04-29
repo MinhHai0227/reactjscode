@@ -55,7 +55,7 @@ const addComic = async (comicData) => {
 };
 
 const findComicByName = async(keyword) => {
-    return await axios.get(`comic/?q=${keyword}`)
+    return await axios.get(`comic/search/hhh?name=${keyword}`)
 }
 
 

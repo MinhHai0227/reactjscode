@@ -1,15 +1,15 @@
 import axios from '../axios'
 
-const getUserById = async () => {
-    const token = localStorage.getItem('token')
-    if(!token){
-        return;
-    }
-    return await axios.get(`users/unlock`,{
-        headers: {Authorization: `Bearer ${token}`}
-    })
+
+const getUserById = async (id) => {
+    return await axios.get(`user/${id}`)
 }
 
+const getUserByUsername = async () => {
+    const res = await axios.get('user/hhh');
+    return res;
+  };
+  
 const getAllUser = async (role) => {
     return await axios.get(`users/?role=${role}`)
 }
@@ -25,4 +25,4 @@ const deleteUser = async (id) => {
     }
 };
 
-export {getUserById, getAllUser, deleteUser}
+export {getUserByUsername,getUserById, getAllUser, deleteUser}

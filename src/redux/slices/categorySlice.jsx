@@ -12,7 +12,7 @@ export const fetchAllCate = createAsyncThunk(
 export const fetchComicByCate = createAsyncThunk(
   'categories/fetchComicByCate',
   async (cate_id) => {
-    const res = getComicByCate(cate_id)
+    const res = await getComicByCate(cate_id)
     return res;
   }
 )
@@ -20,7 +20,7 @@ export const fetchComicByCate = createAsyncThunk(
 
 const initialState = {
     listCata: [],
-    comicBycate: [],
+    comicBycate: {},
     isLoading: false,
     isError: null
 }
@@ -43,8 +43,8 @@ export const categorySlice = createSlice({
       state.listCata = action.payload;
     })
     .addCase(fetchAllCate.rejected, (state, action) => {
-        satisfies.isLoading = false;
-        state.isError = action.error.message;
+      state.isLoading = false;
+      state.isError = action.error.message;
     })
 
     //register

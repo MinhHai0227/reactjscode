@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { privateRouters, publicRouters } from "./routes";
-import DefaultLayout from "./layout/defaultLayout";
+import DefaultLayout from "./layout/DefaultLayout";
 import { Bounce, ToastContainer } from "react-toastify";
 import PrivateRouter from "./routes/PrivateRouter";
 

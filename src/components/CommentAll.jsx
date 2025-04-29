@@ -3,7 +3,7 @@ import CommentList from "./CommentList";
 import Page from "./Page";
 
 
-function CommentAll(){
+function CommentAll({comicId}){
     const[isFocus, setIsFocus] = useState(false);
 
     const handleFocus = () => {
@@ -34,7 +34,7 @@ function CommentAll(){
                 <button className="bg-blue-500 text-white px-2 rounded-sm cursor-pointer hover:bg-blue-400 duration-200 w-24">Gửi</button>
                 }
             </form>
-            <CommentList/>
+            <CommentList comicId={comicId} />
             <Page/>
         </div>
     );

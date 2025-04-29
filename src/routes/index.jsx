@@ -29,9 +29,9 @@ const publicRouters = [
     {path: '/truyen-tranh/:slug', component: ComicPages},
     {path: '/login', component: SignIn},
     {path: '/register', component: SignUp},
-    {path: '/info', component: Information},
+    {path: '/user', component: Information},
     {path: '/payment', component: PaymentPage},
-    {path: '/truyen-tranh/:comic_id/:chapter_id', component: ChapterContainerPage, layout: ChapterLayout},
+    {path: '/chapter/:slug', component: ChapterContainerPage, layout: ChapterLayout},
     
 
 ]

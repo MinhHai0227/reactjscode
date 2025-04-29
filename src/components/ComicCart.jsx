@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/vi'; // Import ngôn ngữ tiếng Việt
+import 'dayjs/locale/vi'; 
 
 dayjs.extend(relativeTime);
-dayjs.locale('vi'); // Thiết lập ngôn ngữ mặc định là tiếng Việt
+dayjs.locale('vi'); 
 
 
 function ComicCart({ item }) {

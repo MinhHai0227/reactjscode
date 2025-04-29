@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
-import logo1 from "../assets/talatade.jpg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
 import { fetchAllCate } from "../redux/slices/categorySlice";
 import { debounce } from "lodash";
 import { findComicByName } from "../custom/service/ComicService";
+import { fetchUserByUsername } from "../redux/slices/userSlice";
+import { useForm } from "react-hook-form";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -72,6 +73,25 @@ const Header = () => {
     dispatch(fetchAllCate());
   }, [dispatch]);
 
+  ///
+
+  const {setValue } = useForm();
+
+      const userById = useSelector((state) => state.user.userById);
+     
+      useEffect(() => {
+          dispatch(fetchUserByUsername());
+      }, [dispatch]);
+  
+      useEffect(() => {
+          if (userById) {
+              setValue("name", userById.username);
+              setValue("email", userById.email);
+              setValue("avatar", userById.avatar); // Set avatar vào form
+          }
+      }, [userById, setValue]);
+      
+      ////
   return (
     <header>
       <div className="top">
@@ -130,7 +150,7 @@ const Header = () => {
                 {searchResults.map((item, index) => (
                   <Link
                     key={index}
-                    to={`/truyen-tranh/${item.comic_id}`}
+                    to={`/truyen-tranh/${item.slug}`}
                     className="w-full bg-white shadow overflow-hidden"
                   >
                     <div className="flex items-center bg-gray-300 p-2">
@@ -186,14 +206,14 @@ const Header = () => {
                 >
                   <img
                     className="object-cover bg-transparent size-11 rounded-3xl"
-                    src={logo1}
+                    src={userById.avatar}
                     alt=""
                   />
                   {isVisible.showhide2 && (
                     <div className="absolute right-0 top-14 z-10 bg-gray-200 p-3 rounded-sm w-60">
                       <ul>
                         <li className="hover:shadow p-2 rounded-sm">
-                          <Link to="/info" className="hover:text-amber-500">
+                          <Link to="/user" className="hover:text-amber-500">
                             Thông Tin
                           </Link>
                         </li>
@@ -297,7 +317,7 @@ const Header = () => {
                       <p key={cate.id}>
                         <Link
                           className="hover:text-amber-500 transition-colors duration-200"
-                          to={`/the-loai/${cate.id}`}
+                          to={`/the-loai/${cate.slug}`}
                         >
                           {cate.name}
                         </Link>
@@ -331,30 +351,22 @@ const Header = () => {
                         className="hover:text-amber-500 transition-colors duration-200"
                         href=""
                       >
-                        Action
+                        Top
                       </a>
                     </p>
                     <p>
-                      <a href="">Action</a>
+                      <a href="">Top Ngày</a>
                     </p>
                     <p>
-                      <a href="">Action</a>
+                      <a href="">Top Tuần </a>
                     </p>
                     <p>
-                      <a href="">Action</a>
+                      <a href="">Top Tháng</a>
                     </p>
                     <p>
-                      <a href="">Action</a>
+                      <a href="">Top Năm</a>
                     </p>
-                    <p>
-                      <a href="">Action</a>
-                    </p>
-                    <p>
-                      <a href="">Action</a>
-                    </p>
-                    <p>
-                      <a href="">Action</a>
-                    </p>
+                 
                   </div>
                 </div>
               </div>
@@ -584,9 +596,6 @@ const Header = () => {
           </ul>
         </div>
       )}
-      <h2 className="max-w-7xl mt-7 mx-auto px-4 py-3 text-red-600 text-2xl font-bold italic font-serif tracking-wide">
-      * Truyện Hay
-    </h2>
 
 
     </header>
